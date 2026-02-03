@@ -35,7 +35,7 @@ function Home() {
 
 
                     <div className='flex  justify-center'>
-                        <img className='md:w-full md:max-w-90  md:block w-full max-w-70 md:mt-15  h-auto object-cover md:ml-5  mix-blend-darken' src="https://static.vecteezy.com/system/resources/previews/006/408/620/non_2x/agency-and-digital-marketing-concept-content-marketing-concept-can-use-for-web-banner-infographics-hero-images-flat-isometric-illustration-vector.jpg" alt="" />
+                        <img className='md:w-full md:max-w-90  md:block w-full max-w-70 md:mt-15  h-auto object-cover md:ml-5  mix-blend-darken' src="/Home.png" alt="image" />
                     </div>
 
 
