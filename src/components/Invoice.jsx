@@ -3,12 +3,13 @@ import { useContext, useState } from 'react'
 import { billContext } from '../Context/invoice'
 import axios from "axios"
 import html2pdf from "html2pdf.js"
-const BASE_URL= import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 function Invoice() {
 
   const { billdata, items } = useContext(billContext)
   const [disamt, setdisamt] = useState(0)
+  const [Loading, setLoading] = useState(false)
 
   const subtotal = items.reduce((total, item) => {
     return total + item.price * item.Qty
@@ -35,7 +36,9 @@ function Invoice() {
 
   }
 
-  const senddata = async () => {
+  const senddata = async (e) => {
+    e.preventDefault()
+    setLoading(true)
 
     try {
       const res = await axios.post(`${BASE_URL}/api/invoice/Send`,
@@ -52,6 +55,8 @@ function Invoice() {
       alert(res.data)
     } catch (error) {
       console.log("axios error", error)
+    } finally {
+      setLoading(false)
     }
 
   }
@@ -208,7 +213,17 @@ function Invoice() {
         <button
           className='bg-green-700 flex items-center justify-center text-white h-10 font-semibold shadow-lg hover:bg-green-600 w-35 mt-5 mb-10 rounded-sm'
           onClick={handle}
-        >DomloadPDF</button>
+          disabled={Loading}
+        >
+          {Loading && (
+            <div className='fixed inset-0 bg-black/40 flex items-center justify-center z-50'>
+
+              <div className='w-14 h-14 border-4 border-white border-t-transparent rounded-full animate-spin'></div>
+
+            </div>
+
+          )}
+          DomloadPDF</button>
       </section>
 
 

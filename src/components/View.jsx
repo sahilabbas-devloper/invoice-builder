@@ -9,7 +9,7 @@ function View() {
   const [data, setdata] = useState('')
 
   const [res, setres] = useState()
-
+    const [Loading, setLoading] = useState(false)
 
 
   const pdfdomload = () => {
@@ -27,8 +27,12 @@ function View() {
 
   }
 
-  const getdata = async () => {
-    const result = await axios.get(`${BASE_URL}/api/invoice/Recive`, {params:{data}})
+  const getdata = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+
+    try {
+       const result = await axios.get(`${BASE_URL}/api/invoice/Recive`, {params:{data}})
     const massage = result.data
     console.log(massage)
     if (massage == 'invoice is not found.') {
@@ -39,6 +43,12 @@ function View() {
       alert("sucessfully..")
        setdata('')
     }
+    } catch (error) {
+      console.log("somthing wrong..",error)
+    } finally {
+      setLoading(false)
+    }
+   
 
   }
 
@@ -65,7 +75,17 @@ function View() {
             />
             <button
               onClick={getdata}
-              className='bg-green-700 w-20 hover:bg-green-600 shadow-xl h-11 mt-2 rounded-md flex items-center  justify-center text-white font-semibold text-sm'>Find</button>
+              disabled={Loading}
+              className='bg-green-700 w-20 hover:bg-green-600 shadow-xl h-11 mt-2 rounded-md flex items-center  justify-center text-white font-semibold text-sm'>
+              {Loading && (
+                    <div className='fixed inset-0 bg-black/40 flex items-center justify-center z-50'>
+
+                      <div className='w-14 h-14 border-4 border-white border-t-transparent rounded-full animate-spin'></div>
+
+                    </div>
+
+                  )}
+              Find</button>
           </div>
 
         </div>
